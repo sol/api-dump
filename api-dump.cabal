@@ -1,13 +1,21 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.35.1.
+-- This file has been generated from package.yaml by hpack version 0.35.4.
 --
 -- see: https://github.com/sol/hpack
 
 name:           api-dump
 version:        0.0.0
+homepage:       https://github.com/sol/api-dump#readme
+bug-reports:    https://github.com/sol/api-dump/issues
 copyright:      (c) 2022-2023 Simon Hengel
+license:        MIT
+license-file:   LICENSE
 build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/sol/api-dump
 
 executable api-dump
   main-is: Run.hs
