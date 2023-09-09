@@ -1,0 +1,7 @@
+packages:
+  api-dump.cabal
+
+package api-dump
+  ghc-options: -Werror
+
+tests: True
