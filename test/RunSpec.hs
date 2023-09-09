@@ -10,5 +10,5 @@ spec :: Spec
 spec = do
   describe "dumpModuleApi" $ do
     it "dumps the API of a given module" $ do
-      expected <- readFile "../../api/Test.Hspec"
+      expected <- readFile "test/resources/Test.Hspec"
       dumpModuleApi Format.format "Test.Hspec" `shouldReturn` expected

@@ -1,5 +1,8 @@
 name: api-dump
 copyright: (c) 2022-2023 Simon Hengel
+license: MIT
+
+github: sol/api-dump
 
 ghc-options: -Wall
 
