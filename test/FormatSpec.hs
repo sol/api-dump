@@ -1,11 +1,15 @@
 module FormatSpec (spec) where
 
+import Prelude hiding (String, lines, unlines)
+
 import           Test.Hspec
 import           Test.QuickCheck
 
 import           Data.List
 
 import           Format
+
+type String = [Char]
 
 spec :: Spec
 spec = do
@@ -21,7 +25,7 @@ spec = do
 
   describe "formatRecord" $ do
     it "formats a record type" $ do
-      let input = "data Person = Person {personName :: String, personAge :: Int}"
+      let input = "data Person = Person \{personName :: String, personAge :: Int}"
       formatRecord input `shouldBe` intercalate "\n" [
           "data Person = Person"
         , "  personName :: String"
@@ -29,7 +33,7 @@ spec = do
         ]
 
     it "correctly handles commas from nested types" $ do
-      let input = "newtype Tuple a b = Tuple {unTuple :: (a, b)}"
+      let input = "newtype Tuple a b = Tuple \{unTuple :: (a, b)}"
       formatRecord input `shouldBe` intercalate "\n" [
           "newtype Tuple a b = Tuple"
         , "  unTuple :: (a, b)"
@@ -44,7 +48,7 @@ spec = do
           , "  type family Arg e"
           , "    Default: ()"
           , "  foo :: a -> Int -> String"
-          , "  {-# MINIMAL foo #-}"
+          , "  \{-# MINIMAL foo #-}"
           ]
       joinDefinitions input `shouldBe` [ intercalate "\n" input ]
 
@@ -63,10 +67,10 @@ spec = do
 
   describe "breakOutsideParens" $ do
     it "breaks a string" $ do
-      breakOutsideParens (== '{') "foo { ... }" `shouldBe` ("foo ", "{ ... }")
+      breakOutsideParens (== '{') "foo \{ ... }" `shouldBe` ("foo ", "\{ ... }")
 
     it "skips over parentheses" $ do
-      breakOutsideParens (== '{') "foo ((foo, bar), { ... }, baz) { ..." `shouldBe` ("foo ((foo, bar), { ... }, baz) ", "{ ...")
+      breakOutsideParens (== '{') "foo ((foo, bar), \{ ... }, baz) \{ ..." `shouldBe` ("foo ((foo, bar), \{ ... }, baz) ", "\{ ...")
 
     context "when a string does not contain any opening parenthesis" $ do
       it "is equivalent to `break`" $ do

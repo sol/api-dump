@@ -1,0 +1,10 @@
+type IsString :: * -> Constraint
+class IsString a where
+  fromString :: String -> a
+  {-# MINIMAL fromString #-}
+type String :: *
+type String = [Char]
+lines :: String -> [String]
+unlines :: [String] -> String
+unwords :: [String] -> String
+words :: String -> [String]

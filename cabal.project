@@ -5,3 +5,12 @@ package api-dump
   ghc-options: -Werror
 
 tests: True
+
+source-repository-package
+  type: git
+  location: https://github.com/sol/solid
+  tag: 15e1a2f
+  subdir:
+    .
+    solid-pp
+    haskell-base
