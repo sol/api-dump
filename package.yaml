@@ -4,19 +4,33 @@ license: MIT
 
 github: sol/api-dump
 
-ghc-options: -Wall
+ghc-options: -Wall -F -pgmF=solid-pp
 
 dependencies:
-  - base
-  - process
-  - filepath
-  - directory
-  - hpack
+  - solid
+  - haskell-base
+  - containers
+
+language: GHC2021
+
+default-extensions:
+  - DataKinds
+  - DeriveAnyClass
+  - DuplicateRecordFields
+  - LambdaCase
+  - OverloadedRecordDot
+  - OverloadedStrings
+  - NoFieldSelectors
+
+build-tools: solid-pp
 
 source-dirs: src
 
 executable:
   main: Run.main
+  when:
+    condition: false
+    other-modules: Paths_api_dump
 
 tests:
   spec:
@@ -28,3 +42,6 @@ tests:
     dependencies:
       - hspec == 2.*
       - QuickCheck
+    when:
+      condition: false
+      other-modules: Paths_api_dump

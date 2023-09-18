@@ -7,8 +7,29 @@ import           Run
 import qualified Format
 
 spec :: Spec
-spec = do
+spec = around_ (Env.without "GHC_ENVIRONMENT") $ do
+  describe "parseOptions" $ do
+    it "" $ do
+      parseOptions ["Foo.Bar", "Baz"] `shouldReturn` defaultOptions { modules = [Module ["Foo", "Bar"], Module ["Baz"]] }
+      parseOptions ["--raw"] `shouldReturn` defaultOptions { mode = RawMode }
+      parseOptions ["--stdout"] `shouldReturn` defaultOptions { output = StdOut }
+
+  describe "parseModule" $ do
+    it "" $ do
+      parseModule "Foo" `shouldBe` Just (Module ["Foo"])
+
+    it "" $ do
+      parseModule "Foo.Bar" `shouldBe` Just (Module ["Foo", "Bar"])
+
   describe "dumpModuleApi" $ do
-    it "dumps the API of a given module" $ do
-      expected <- readFile "test/resources/Test.Hspec"
-      dumpModuleApi Format.format "Test.Hspec" `shouldReturn` expected
+    let
+      modules = [
+          Module ["Data", "Maybe"]
+        , Module ["Data", "String"]
+        , Module ["System", "IO"]
+        ]
+    modules.for_ $ \ module_ -> do
+      context "with {module_}".unpack $ do
+        it "dumps the API" $ do
+          expected <- readFile ("api" </> module_.toString.asFilePath)
+          dumpModuleApi Format.format module_ `shouldReturn` expected
